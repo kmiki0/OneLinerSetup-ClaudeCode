@@ -1,7 +1,7 @@
 #!/bin/bash
 # ============================================================
 # multi-agent-shogun ワンライナーインストール
-# curl -fsSL https://raw.githubusercontent.com/USERNAME/multi-agent-shogun-podman/main/install.sh | bash
+# curl -fsSL https://raw.githubusercontent.com/kmiki0/OneLinerSetup-MultiAgentShogun/main/install.sh | bash
 # ============================================================
 
 set -e
@@ -22,8 +22,8 @@ log_error() { echo -e "${RED}[ERROR]${NC} $1"; }
 # 設定
 # ============================================================
 
-REPO_URL="https://github.com/USERNAME/multi-agent-shogun-podman.git"
-INSTALL_DIR="$HOME/multi-agent-shogun-env"
+REPO_URL="https://github.com/kmiki0/OneLinerSetup-MultiAgentShogun.git"
+INSTALL_DIR="$HOME/OneLinerSetup-MultiAgentShogun"
 
 # ============================================================
 # メイン処理

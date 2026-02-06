@@ -67,7 +67,6 @@ log_info "multi-agent-shogun リポジトリを更新中..."
 echo ""
 
 $SUDO $ENGINE exec -it multi-agent-shogun bash -c "
-cd /workspace/multi-agent-shogun
 echo '📥 最新版を取得中...'
 git pull origin main
 echo ''
@@ -85,7 +84,6 @@ if [ $? -eq 0 ]; then
     echo ""
     echo "📌 再起動手順:"
     echo "   $SUDO $ENGINE exec -it multi-agent-shogun bash"
-    echo "   cd /workspace/multi-agent-shogun"
     echo "   tmux kill-session -t shogun"
     echo "   tmux kill-session -t multiagent"
     echo "   ./shutsujin_departure.sh"

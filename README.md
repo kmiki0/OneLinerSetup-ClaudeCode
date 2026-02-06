@@ -34,10 +34,8 @@
 wsl
 
 # 2. ワンライナー実行（これだけ！）
-curl -fsSL https://raw.githubusercontent.com/USERNAME/multi-agent-shogun-podman/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/kmiki0/OneLinerSetup-MultiAgentShogun/main/install.sh | bash
 ```
-
-**※ `USERNAME` を実際のGitHubユーザー名に置き換えてください**
 
 ---
 
@@ -48,8 +46,8 @@ curl -fsSL https://raw.githubusercontent.com/USERNAME/multi-agent-shogun-podman/
 wsl
 
 # リポジトリをクローン
-git clone https://github.com/USERNAME/multi-agent-shogun-podman.git
-cd multi-agent-shogun-podman
+git clone https://github.com/kmiki0/OneLinerSetup-MultiAgentShogun.git
+cd OneLinerSetup-MultiAgentShogun
 
 # セットアップ実行
 ./setup.sh
@@ -63,8 +61,7 @@ sudo podman exec -it multi-agent-shogun bash
 # または docker の場合
 sudo docker exec -it multi-agent-shogun bash
 
-# コンテナ内で起動
-cd /workspace/multi-agent-shogun
+# コンテナ内で起動（作業ディレクトリに自動で入ります）
 ./shutsujin_departure.sh
 
 # 将軍に接続（命令を出す）
@@ -130,8 +127,7 @@ docker exec -it multi-agent-shogun bash
 ### multi-agent-shogun を起動
 
 ```bash
-# コンテナ内で
-cd /workspace/multi-agent-shogun
+# コンテナ内で（作業ディレクトリに自動で入ります）
 ./shutsujin_departure.sh
 ```
 
@@ -197,7 +193,7 @@ sudo podman inspect multi-agent-shogun
 ## 🗂️ ファイル構成
 
 ```
-multi-agent-shogun-podman/
+OneLinerSetup-MultiAgentShogun/
 ├── Dockerfile           # コンテナイメージ定義
 ├── entrypoint.sh        # コンテナ起動スクリプト
 ├── setup.sh             # ワンコマンドセットアップ
@@ -295,7 +291,6 @@ tmux ls
 セッションを再作成:
 
 ```bash
-cd /workspace/multi-agent-shogun
 ./shutsujin_departure.sh
 ```
 

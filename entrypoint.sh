@@ -23,8 +23,7 @@ node --version
 claude --version
 echo "✅ Claude Code CLI 準備完了"
 
-# 作業ディレクトリの確認
-cd /workspace/multi-agent-shogun
+# 作業ディレクトリの確認（WORKDIR で自動設定済み）
 echo "✅ 作業ディレクトリ: $(pwd)"
 
 # 起動完了メッセージ
@@ -36,8 +35,7 @@ echo ""
 echo "📌 コンテナに入る方法:"
 echo "   podman exec -it multi-agent-shogun bash"
 echo ""
-echo "📌 起動方法:"
-echo "   cd /workspace/multi-agent-shogun"
+echo "📌 起動方法（作業ディレクトリに自動で入ります）:"
 echo "   ./shutsujin_departure.sh"
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
