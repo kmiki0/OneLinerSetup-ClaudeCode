@@ -1,7 +1,7 @@
 #!/bin/bash
 # ============================================================
 # Claude Code 実行環境 ワンライナーインストール
-# curl -fsSL https://raw.githubusercontent.com/kmiki0/OneLinerSetup-MultiAgentShogun/main/install.sh | bash
+# curl -fsSL https://raw.githubusercontent.com/kmiki0/OneLinerSetup-ClaudeCode/main/install.sh | bash
 # ============================================================
 
 set -e
@@ -22,8 +22,8 @@ log_error() { echo -e "${RED}[ERROR]${NC} $1"; }
 # 設定
 # ============================================================
 
-REPO_URL="https://github.com/kmiki0/OneLinerSetup-MultiAgentShogun.git"
-INSTALL_DIR="$HOME/OneLinerSetup-MultiAgentShogun"
+REPO_URL="https://github.com/kmiki0/OneLinerSetup-ClaudeCode.git"
+INSTALL_DIR="$HOME/OneLinerSetup-ClaudeCode"
 
 # ============================================================
 # メイン処理

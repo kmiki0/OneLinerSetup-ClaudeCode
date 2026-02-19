@@ -35,7 +35,7 @@
 wsl
 
 # 2. ワンライナー実行（これだけ！）
-curl -fsSL https://raw.githubusercontent.com/kmiki0/OneLinerSetup-MultiAgentShogun/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/kmiki0/OneLinerSetup-ClaudeCode/main/install.sh | bash
 ```
 
 ---
@@ -47,8 +47,8 @@ curl -fsSL https://raw.githubusercontent.com/kmiki0/OneLinerSetup-MultiAgentShog
 wsl
 
 # リポジトリをクローン
-git clone https://github.com/kmiki0/OneLinerSetup-MultiAgentShogun.git
-cd OneLinerSetup-MultiAgentShogun
+git clone https://github.com/kmiki0/OneLinerSetup-ClaudeCode.git
+cd OneLinerSetup-ClaudeCode
 
 # セットアップ実行
 ./setup.sh
@@ -187,7 +187,7 @@ sudo podman inspect claude-code-env
 ## 🗂️ ファイル構成
 
 ```
-OneLinerSetup-MultiAgentShogun/
+OneLinerSetup-ClaudeCode/
 ├── Dockerfile           # コンテナイメージ定義
 ├── entrypoint.sh        # コンテナ起動スクリプト
 ├── setup.sh             # ワンコマンドセットアップ
