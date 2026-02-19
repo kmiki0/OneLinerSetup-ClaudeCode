@@ -1,5 +1,5 @@
 # ============================================================
-# multi-agent-shogun Dockerfile
+# Claude Code 実行環境 Dockerfile
 # Ubuntu 24.04 + tmux + Node.js 18+ + Claude Code CLI
 # ============================================================
 
@@ -31,32 +31,18 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# 作業ディレクトリ作成
-WORKDIR /workspace
-
 # Claude Code CLI インストール（グローバル）
 RUN npm install -g @anthropic-ai/claude-code
 
 # tmux 設定（マウス有効化）
 RUN echo "set -g mouse on" > /root/.tmux.conf
 
-# multi-agent-shogun クローン
-RUN git clone https://github.com/yohey-w/multi-agent-shogun.git /workspace/multi-agent-shogun
+# 作業ディレクトリ
+WORKDIR /workspace
 
-# 作業ディレクトリを multi-agent-shogun に設定
-WORKDIR /workspace/multi-agent-shogun
-
-# スクリプトに実行権限付与
-RUN chmod +x *.sh
-
-# first_setup.sh を実行（依存関係の初期化）
-# ただし対話的な部分はスキップするため、非対話モードで実行
-RUN bash -c "yes | ./first_setup.sh" || true
-
-# エントリーポイント: tmux セッションを永続化するためのスクリプト
+# エントリーポイント
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# コンテナ起動時のコマンド
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["sleep", "infinity"]

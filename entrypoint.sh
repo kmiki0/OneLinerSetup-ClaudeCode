@@ -1,12 +1,11 @@
 #!/bin/bash
 # ============================================================
 # entrypoint.sh - コンテナ起動時の初期化スクリプト
-# tmux セッションの準備とコンテナの永続化
 # ============================================================
 
 set -e
 
-echo "🏯 multi-agent-shogun コンテナ起動中..."
+echo "🤖 Claude Code 実行環境 起動中..."
 
 # Anthropic API キーの確認
 if [ -z "$ANTHROPIC_API_KEY" ]; then
@@ -14,7 +13,7 @@ if [ -z "$ANTHROPIC_API_KEY" ]; then
     echo "   コンテナ起動時に -e ANTHROPIC_API_KEY=your-key を指定してください"
 fi
 
-# tmux サーバーの起動確認
+# tmux 確認
 tmux -V
 echo "✅ tmux 準備完了"
 
@@ -23,23 +22,22 @@ node --version
 claude --version
 echo "✅ Claude Code CLI 準備完了"
 
-# 作業ディレクトリの確認（WORKDIR で自動設定済み）
 echo "✅ 作業ディレクトリ: $(pwd)"
 
 # 起動完了メッセージ
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "🏯 multi-agent-shogun 準備完了"
+echo "🤖 Claude Code 実行環境 準備完了"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 echo "📌 コンテナに入る方法:"
-echo "   podman exec -it multi-agent-shogun bash"
+echo "   podman exec -it claude-code-env bash"
 echo ""
-echo "📌 起動方法（作業ディレクトリに自動で入ります）:"
-echo "   ./shutsujin_departure.sh"
+echo "📌 Claude Code を起動:"
+echo "   claude"
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 
-# コンテナを永続化（無限ループ）
+# コンテナを永続化
 exec "$@"

@@ -1,6 +1,6 @@
 #!/bin/bash
 # ============================================================
-# multi-agent-shogun ワンライナーインストール
+# Claude Code 実行環境 ワンライナーインストール
 # curl -fsSL https://raw.githubusercontent.com/kmiki0/OneLinerSetup-MultiAgentShogun/main/install.sh | bash
 # ============================================================
 
@@ -31,7 +31,7 @@ INSTALL_DIR="$HOME/OneLinerSetup-MultiAgentShogun"
 
 echo ""
 echo "  ╔══════════════════════════════════════════════════════════════╗"
-echo "  ║  🏯 multi-agent-shogun インストーラー                         ║"
+echo "  ║  🤖 Claude Code 実行環境 インストーラー                      ║"
 echo "  ║     ワンライナーセットアップ                                  ║"
 echo "  ╚══════════════════════════════════════════════════════════════╝"
 echo ""
@@ -71,7 +71,7 @@ log_success "クローン完了"
 # ディレクトリに移動
 cd "$INSTALL_DIR"
 
-# setup.sh に実行権限付与
+# 実行権限付与
 chmod +x setup.sh uninstall.sh update.sh entrypoint.sh
 
 # setup.sh を実行

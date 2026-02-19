@@ -1,6 +1,6 @@
 #!/bin/bash
 # ============================================================
-# multi-agent-shogun 更新スクリプト
+# Claude Code CLI 更新スクリプト
 # podman / docker 両対応
 # ============================================================
 
@@ -15,6 +15,12 @@ NC='\033[0m'
 log_info() { echo -e "${GREEN}[INFO]${NC} $1"; }
 log_warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
 log_error() { echo -e "${RED}[ERROR]${NC} $1"; }
+
+# ============================================================
+# 定数
+# ============================================================
+
+CONTAINER_NAME="claude-code-env"
 
 # ============================================================
 # エンジン検出
@@ -47,7 +53,7 @@ detect_engine() {
 
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "🔄 multi-agent-shogun 更新"
+echo "🔄 Claude Code CLI 更新"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 
@@ -57,21 +63,21 @@ log_info "使用エンジン: $ENGINE"
 echo ""
 
 # コンテナが起動しているか確認
-if ! $SUDO $ENGINE ps 2>/dev/null | grep -q multi-agent-shogun; then
+if ! $SUDO $ENGINE ps 2>/dev/null | grep -q "$CONTAINER_NAME"; then
     log_error "コンテナが起動していません"
-    log_info "起動: $SUDO $ENGINE start multi-agent-shogun"
+    log_info "起動: $SUDO $ENGINE start $CONTAINER_NAME"
     exit 1
 fi
 
-log_info "multi-agent-shogun リポジトリを更新中..."
+log_info "Claude Code CLI を更新中..."
 echo ""
 
-$SUDO $ENGINE exec -it multi-agent-shogun bash -c "
-echo '📥 最新版を取得中...'
-git pull origin main
+$SUDO $ENGINE exec -it "$CONTAINER_NAME" bash -c "
+echo '📥 Claude Code CLI を最新版に更新中...'
+npm install -g @anthropic-ai/claude-code
 echo ''
-echo '🔧 依存関係を更新中...'
-./first_setup.sh
+echo '📌 更新後のバージョン:'
+claude --version
 "
 
 if [ $? -eq 0 ]; then
@@ -79,14 +85,6 @@ if [ $? -eq 0 ]; then
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     echo "✅ 更新完了"
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    echo ""
-    log_info "変更を反映するには、tmuxセッションを再起動してください"
-    echo ""
-    echo "📌 再起動手順:"
-    echo "   $SUDO $ENGINE exec -it multi-agent-shogun bash"
-    echo "   tmux kill-session -t shogun"
-    echo "   tmux kill-session -t multiagent"
-    echo "   ./shutsujin_departure.sh"
     echo ""
 else
     log_error "更新に失敗しました"
