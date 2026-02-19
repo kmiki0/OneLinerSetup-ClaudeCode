@@ -1,12 +1,12 @@
-# 🏯 multi-agent-shogun - Podman / Docker セットアップ
+# 🤖 Claude Code 実行環境 - Podman / Docker セットアップ
 
-**WSL2 + podman/docker 環境で multi-agent-shogun を動かすワンコマンドセットアップ**
+**WSL2 + podman/docker 環境で Claude Code をワンコマンドでセットアップ**
 
 ---
 
 ## 📋 概要
 
-このリポジトリは、[multi-agent-shogun](https://github.com/yohey-w/multi-agent-shogun) を WSL2 + podman/docker 環境で簡単にセットアップするためのツールです。
+このリポジトリは、[Claude Code](https://docs.anthropic.com/en/docs/claude-code) を WSL2 + podman/docker のコンテナ環境で簡単にセットアップするためのツールです。
 
 **特徴:**
 - ✅ ワンコマンドでセットアップ完了
@@ -14,6 +14,7 @@
 - ✅ rootless podman 対応
 - ✅ APIキーの安全な管理
 - ✅ データ永続化（ボリューム使用）
+- ✅ tmux によるターミナル分割対応
 
 ---
 
@@ -57,15 +58,12 @@ cd OneLinerSetup-MultiAgentShogun
 
 ```bash
 # コンテナに入る
-sudo podman exec -it multi-agent-shogun bash
+sudo podman exec -it claude-code-env bash
 # または docker の場合
-sudo docker exec -it multi-agent-shogun bash
+sudo docker exec -it claude-code-env bash
 
-# コンテナ内で起動（作業ディレクトリに自動で入ります）
-./shutsujin_departure.sh
-
-# 将軍に接続（命令を出す）
-tmux attach -t shogun
+# Claude Code を起動
+claude
 ```
 
 ---
@@ -116,39 +114,36 @@ export ANTHROPIC_API_KEY="sk-ant-api03-xxxxx"
 
 ```bash
 # podman の場合
-sudo podman exec -it multi-agent-shogun bash
+sudo podman exec -it claude-code-env bash
 
 # docker の場合
-sudo docker exec -it multi-agent-shogun bash
+sudo docker exec -it claude-code-env bash
 # または（docker グループに所属している場合）
-docker exec -it multi-agent-shogun bash
+docker exec -it claude-code-env bash
 ```
 
-### multi-agent-shogun を起動
-
-```bash
-# コンテナ内で（作業ディレクトリに自動で入ります）
-./shutsujin_departure.sh
-```
-
-### 将軍に接続
+### Claude Code を起動
 
 ```bash
 # コンテナ内で
-tmux attach -t shogun
+claude
 ```
 
-### 家老・足軽を確認
+### tmux を使う（ターミナル分割）
 
 ```bash
-# コンテナ内で
-tmux attach -t multiagent
-```
+# コンテナ内で新しい tmux セッションを作成
+tmux new -s work
 
-### デタッチ（セッションから抜ける）
+# セッション内でウィンドウを分割
+# 水平分割: Ctrl+B → %
+# 垂直分割: Ctrl+B → "
 
-```
-Ctrl+B → d
+# セッションからデタッチ
+# Ctrl+B → d
+
+# セッションに再接続
+tmux attach -t work
 ```
 
 ---
@@ -159,25 +154,24 @@ Ctrl+B → d
 
 ```bash
 # 停止
-sudo podman stop multi-agent-shogun
+sudo podman stop claude-code-env
 
 # 再起動
-sudo podman restart multi-agent-shogun
+sudo podman restart claude-code-env
 
 # ログ確認
-sudo podman logs multi-agent-shogun
+sudo podman logs claude-code-env
 
 # リアルタイムログ
-sudo podman logs -f multi-agent-shogun
+sudo podman logs -f claude-code-env
 
 # コンテナ情報
-sudo podman inspect multi-agent-shogun
+sudo podman inspect claude-code-env
 ```
 
-### 更新
+### Claude Code CLI の更新
 
 ```bash
-# multi-agent-shogun を最新版に更新
 ./update.sh
 ```
 
@@ -197,8 +191,9 @@ OneLinerSetup-MultiAgentShogun/
 ├── Dockerfile           # コンテナイメージ定義
 ├── entrypoint.sh        # コンテナ起動スクリプト
 ├── setup.sh             # ワンコマンドセットアップ
+├── install.sh           # ワンライナーインストール
 ├── uninstall.sh         # アンインストールスクリプト
-├── update.sh            # 更新スクリプト
+├── update.sh            # Claude Code CLI 更新スクリプト
 └── README.md            # このファイル
 ```
 
@@ -222,7 +217,7 @@ sudo apt install -y podman
 **A:** sudo を使ってください:
 
 ```bash
-sudo podman exec -it multi-agent-shogun bash
+sudo podman exec -it claude-code-env bash
 ```
 
 または、docker グループに追加（docker の場合）:
@@ -240,7 +235,7 @@ sudo usermod -aG docker $USER
 
 ```bash
 # 既存コンテナを削除
-sudo podman rm -f multi-agent-shogun
+sudo podman rm -f claude-code-env
 
 # APIキーを指定して再作成
 export ANTHROPIC_API_KEY="新しいキー"
@@ -254,7 +249,7 @@ export ANTHROPIC_API_KEY="新しいキー"
 **A:** ログを確認してください:
 
 ```bash
-sudo podman logs multi-agent-shogun
+sudo podman logs claude-code-env
 ```
 
 よくある原因:
@@ -270,7 +265,7 @@ sudo podman logs multi-agent-shogun
 
 ```bash
 # イメージを削除
-sudo podman rmi multi-agent-shogun:latest
+sudo podman rmi claude-code-env:latest
 
 # 再ビルド
 ./setup.sh
@@ -278,30 +273,12 @@ sudo podman rmi multi-agent-shogun:latest
 
 ---
 
-### Q6: tmux が動かない
-
-**A:** コンテナ内で確認:
-
-```bash
-sudo podman exec -it multi-agent-shogun bash
-tmux -V
-tmux ls
-```
-
-セッションを再作成:
-
-```bash
-./shutsujin_departure.sh
-```
-
----
-
-### Q7: Claude Code CLI が動かない
+### Q6: Claude Code CLI が動かない
 
 **A:** バージョン確認:
 
 ```bash
-sudo podman exec -it multi-agent-shogun bash
+sudo podman exec -it claude-code-env bash
 claude --version
 node --version
 ```
@@ -309,7 +286,7 @@ node --version
 手動で再インストール:
 
 ```bash
-sudo podman exec -it multi-agent-shogun bash
+sudo podman exec -it claude-code-env bash
 npm install -g @anthropic-ai/claude-code
 ```
 
@@ -337,7 +314,7 @@ npm install -g @anthropic-ai/claude-code
 
 ### ボリュームの管理
 
-- データは `shogun-data` ボリュームに永続化されます
+- データは `claude-code-env-data` ボリュームに永続化されます
 - アンインストール時に完全に削除されます
 
 ---
@@ -356,7 +333,7 @@ MIT License
 
 ## 🔗 関連リンク
 
-- [multi-agent-shogun 本家](https://github.com/yohey-w/multi-agent-shogun)
+- [Claude Code ドキュメント](https://docs.anthropic.com/en/docs/claude-code)
 - [Anthropic Console](https://console.anthropic.com/)
 - [Podman](https://podman.io/)
 - [Docker](https://www.docker.com/)
@@ -371,9 +348,9 @@ WSL の `.bashrc` に追加すると便利:
 
 ```bash
 # ~/.bashrc に追加
-alias shogun-enter='sudo podman exec -it multi-agent-shogun bash'
-alias shogun-logs='sudo podman logs -f multi-agent-shogun'
-alias shogun-restart='sudo podman restart multi-agent-shogun'
+alias claude-enter='sudo podman exec -it claude-code-env bash'
+alias claude-logs='sudo podman logs -f claude-code-env'
+alias claude-restart='sudo podman restart claude-code-env'
 ```
 
 反映:
@@ -385,13 +362,7 @@ source ~/.bashrc
 使用例:
 
 ```bash
-shogun-enter
-shogun-logs
-shogun-restart
+claude-enter
+claude-logs
+claude-restart
 ```
-
----
-
-**以上で完了です 🏯💚**
-
-何か問題があれば Issue を作成してください。

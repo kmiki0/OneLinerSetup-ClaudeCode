@@ -6,9 +6,7 @@ const colors = {
   setup: { bg: "#1a1a2e", border: "#10b981", text: "#6ee7b7" },
   engine: { bg: "#1e293b", border: "#f59e0b", text: "#fbbf24" },
   container: { bg: "#1e293b", border: "#f472b6", text: "#f9a8d4" },
-  shogun: { bg: "#2d1b3d", border: "#c084fc", text: "#e9d5ff" },
-  karo: { bg: "#1e3a2e", border: "#4ade80", text: "#bbf7d0" },
-  ashigaru: { bg: "#1e1b2e", border: "#fbbf24", text: "#fde68a" },
+  claude: { bg: "#2d1b3d", border: "#c084fc", text: "#e9d5ff" },
   management: { bg: "#1a1a2e", border: "#facc15", text: "#fde047" },
   anthropic: { bg: "#1a1a2e", border: "#10b981", text: "#6ee7b7" },
   arrow: "#64748b",
@@ -48,22 +46,6 @@ const Box = ({ color, title, subtitle, children, style, className = "" }) => (
   </div>
 );
 
-const AgentNode = ({ name, role, color }) => (
-  <div
-    className="rounded-md border flex flex-col items-center justify-center text-center"
-    style={{
-      background: color.bg,
-      borderColor: color.border,
-      borderWidth: 1,
-      padding: "4px 7px",
-      minWidth: 58,
-    }}
-  >
-    <span style={{ color: color.text, fontSize: 9, fontWeight: 700, fontFamily: "'JetBrains Mono', monospace" }}>{name}</span>
-    <span style={{ color: color.text + "88", fontSize: 7, fontFamily: "'JetBrains Mono', monospace" }}>{role}</span>
-  </div>
-);
-
 export default function App() {
   const [showDetails, setShowDetails] = useState(true);
   const [selectedEngine, setSelectedEngine] = useState("auto");
@@ -73,7 +55,7 @@ export default function App() {
       {/* Title */}
       <div className="text-center mb-3">
         <h1 style={{ color: "#e2e0f0", fontSize: 16, fontWeight: 800, letterSpacing: -0.5 }}>
-          🏯 multi-agent-shogun ワンライナーセットアップ
+          🤖 Claude Code 実行環境 ワンライナーセットアップ
         </h1>
         <p style={{ color: "#5c5c7a", fontSize: 9, marginTop: 1 }}>curl 1行で完了 | podman / docker 両対応</p>
       </div>
@@ -94,7 +76,7 @@ export default function App() {
         >
           {showDetails ? "詳細表示" : "簡易表示"}
         </button>
-        
+
         <select
           value={selectedEngine}
           onChange={(e) => setSelectedEngine(e.target.value)}
@@ -197,50 +179,45 @@ export default function App() {
         <Arrow label="ビルド・起動" />
 
         {/* ============ CONTAINER ============ */}
-        <Box color={colors.container} title="Container: multi-agent-shogun" subtitle="Ubuntu 24.04" style={{ width: 520, maxWidth: "100%" }}>
+        <Box color={colors.container} title="Container: claude-code-env" subtitle="Ubuntu 24.04" style={{ width: 520, maxWidth: "100%" }}>
           {showDetails && (
             <div className="rounded border mb-1.5 mt-1.5" style={{ background: "#1a1a2e", borderColor: "#64748b44", padding: "4px 6px" }}>
               <div className="flex flex-col gap-0.5">
                 <div className="flex items-center gap-1">
                   <span style={{ color: "#64748b", fontSize: 7 }}>•</span>
-                  <span style={{ color: "#94a3b8", fontSize: 7 }}>tmux 3.4</span>
+                  <span style={{ color: "#94a3b8", fontSize: 7 }}>tmux</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <span style={{ color: "#64748b", fontSize: 7 }}>•</span>
-                  <span style={{ color: "#94a3b8", fontSize: 7 }}>Node.js 18.20.8</span>
+                  <span style={{ color: "#94a3b8", fontSize: 7 }}>Node.js 18.x</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <span style={{ color: "#64748b", fontSize: 7 }}>•</span>
-                  <span style={{ color: "#94a3b8", fontSize: 7 }}>Claude Code CLI 2.3.0</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <span style={{ color: "#64748b", fontSize: 7 }}>•</span>
-                  <span style={{ color: "#94a3b8", fontSize: 7 }}>multi-agent-shogun (latest)</span>
+                  <span style={{ color: "#94a3b8", fontSize: 7 }}>Claude Code CLI (latest)</span>
                 </div>
               </div>
             </div>
           )}
 
-          {/* Shogun hierarchy */}
+          {/* Claude Code */}
           <div className="rounded-lg border" style={{ background: "#0f0f1a", borderColor: "#c084fc44", borderWidth: 1, padding: "6px" }}>
             <div className="flex items-center gap-1 mb-1.5">
               <div style={{ width: 4, height: 4, borderRadius: "50%", background: "#c084fc" }} />
-              <span style={{ color: "#e9d5ff", fontSize: 8, fontWeight: 600 }}>戦国階層 (tmux)</span>
+              <span style={{ color: "#e9d5ff", fontSize: 8, fontWeight: 600 }}>Claude Code CLI</span>
             </div>
             <div className="flex flex-col items-center gap-1">
-              <AgentNode name="将軍" role="命令" color={colors.shogun} />
-              <div style={{ color: colors.arrow, fontSize: 9 }}>↓</div>
-              <AgentNode name="家老" role="分配" color={colors.karo} />
-              <div style={{ color: colors.arrow, fontSize: 9 }}>↓</div>
-              <div className="grid grid-cols-4 gap-0.5">
-                {[1, 2, 3, 4].map(n => (
-                  <AgentNode key={n} name={`足軽${n}`} role="実行" color={colors.ashigaru} />
-                ))}
-              </div>
-              <div className="grid grid-cols-4 gap-0.5">
-                {[5, 6, 7, 8].map(n => (
-                  <AgentNode key={n} name={`足軽${n}`} role="実行" color={colors.ashigaru} />
-                ))}
+              <div
+                className="rounded-md border flex flex-col items-center justify-center text-center"
+                style={{
+                  background: colors.claude.bg,
+                  borderColor: colors.claude.border,
+                  borderWidth: 1,
+                  padding: "6px 12px",
+                  minWidth: 120,
+                }}
+              >
+                <span style={{ color: colors.claude.text, fontSize: 10, fontWeight: 700, fontFamily: "'JetBrains Mono', monospace" }}>$ claude</span>
+                <span style={{ color: colors.claude.text + "88", fontSize: 7, fontFamily: "'JetBrains Mono', monospace" }}>対話型 AI コーディング</span>
               </div>
             </div>
           </div>
@@ -252,7 +229,7 @@ export default function App() {
         <Box color={colors.anthropic} title="Anthropic" subtitle="外部API" style={{ width: 520, maxWidth: "100%" }}>
           <div className="flex items-center justify-center mt-1.5 gap-2 flex-wrap">
             <div className="rounded px-2 py-0.5" style={{ background: "#1a2a1e", border: "1px solid #10b98144" }}>
-              <span style={{ color: "#6ee7b7", fontSize: 9 }}>🤖 Claude Sonnet 4.5</span>
+              <span style={{ color: "#6ee7b7", fontSize: 9 }}>🤖 Claude</span>
             </div>
             <div className="rounded px-2 py-0.5" style={{ background: "#1a2a1e", border: "1px solid #10b98144" }}>
               <span style={{ color: "#6ee7b7", fontSize: 9 }}>🔑 API Key</span>
@@ -271,7 +248,7 @@ export default function App() {
               <Box color={colors.management} title="管理コマンド" subtitle="update / uninstall" style={{ width: 520, maxWidth: "100%" }}>
                 <div className="flex flex-col gap-1 mt-1.5">
                   <div className="rounded px-2 py-0.5" style={{ background: "#facc1511", border: "1px solid #facc1533" }}>
-                    <span style={{ color: "#fde047", fontSize: 8 }}>🔄 ./update.sh - 最新版に更新</span>
+                    <span style={{ color: "#fde047", fontSize: 8 }}>🔄 ./update.sh - Claude Code CLI を最新版に更新</span>
                   </div>
                   <div className="rounded px-2 py-0.5" style={{ background: "#facc1511", border: "1px solid #facc1533" }}>
                     <span style={{ color: "#fde047", fontSize: 8 }}>🗑️ ./uninstall.sh - 完全削除</span>
@@ -297,7 +274,7 @@ export default function App() {
               { color: colors.setup.border, label: "Setup" },
               { color: colors.engine.border, label: "Engine" },
               { color: colors.container.border, label: "Container" },
-              { color: colors.shogun.border, label: "将軍" },
+              { color: colors.claude.border, label: "Claude Code" },
               { color: colors.anthropic.border, label: "Anthropic" },
               { color: colors.management.border, label: "Management" },
             ].map((item) => (
@@ -318,6 +295,7 @@ export default function App() {
               "podman / docker 自動検出",
               "rootless podman 対応",
               "データ永続化（ボリューム）",
+              "tmux によるターミナル分割",
               "簡単な更新・削除",
             ].map((feature, i) => (
               <div key={i} className="flex items-start gap-1">
